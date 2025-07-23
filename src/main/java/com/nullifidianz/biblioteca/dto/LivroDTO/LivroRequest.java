@@ -11,6 +11,6 @@ public class LivroRequest {
     private String titulo;
     private String auto;
     private String isbn;
-    private LocalDate anoPublicacao;
+    private LocalDate dataPublicacao;
 
 }

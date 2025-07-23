@@ -4,18 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.validator.constraints.ISBN;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,24 +30,22 @@ public class Livro extends AuditoriaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    @NotBlank
     private String titulo;
-
+    
+    @NotBlank
     private String autor;
-
+    
+    @ISBN
     @Column(unique = true)
-
     private String isbn;
 
-    private LocalDate anoPublicacao;
+    private LocalDate dataPublicacao;
 
-    private Boolean isAvaliable;
+    private boolean disponivel = true;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    @JsonBackReference
-    private Usuario emprestimoAtual;
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
+    private List<Emprestimo> emprestimos = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "livrosEmprestados")
-    private List<Usuario> logEmprestimos = new ArrayList<>(null);
 }
