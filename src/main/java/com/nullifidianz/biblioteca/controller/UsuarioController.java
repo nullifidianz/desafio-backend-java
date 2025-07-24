@@ -23,26 +23,26 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/usuarios")
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
-    @PostMapping("/usuarios/cadastrar")
+    @PostMapping("/cadastrar")
     public ResponseEntity<UsuarioResponse> cadastrarUsuario(@Valid @RequestBody UsuarioRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.criarUsuario(request));
     }
 
-    @GetMapping("/usuarios/buscar/todos")
+    @GetMapping("/buscar/todos")
     public ResponseEntity<List<UsuarioResponse>> mostrarTodos() {
         return ResponseEntity.ok(usuarioService.listarTodos());
     }
 
-    @GetMapping("/usuarios/buscar/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
 
-    @DeleteMapping(("/usuarios/deletar/{id}"))
+    @DeleteMapping(("/deletar/{id}"))
     public ResponseEntity<Void> deletarUsuario(@PathVariable Long id) {
         usuarioService.deletarUsuario(id);
         return ResponseEntity.noContent().build();
